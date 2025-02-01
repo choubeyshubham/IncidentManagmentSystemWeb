@@ -1,1 +1,74 @@
-<p>incident works!</p>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h5>{{ editing ? 'Edit Incident' : 'Create Incident' }}</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="incidentForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="reporterName" class="form-label">Reporter Name</label>
+          <input type="text" id="reporterName" formControlName="reporterName" class="form-control" placeholder="Enter reporter name">
+        </div>
+        <div class="mb-3">
+          <label for="incidentDetails" class="form-label">Incident Details</label>
+          <textarea id="incidentDetails" formControlName="incidentDetails" class="form-control" placeholder="Enter incident details"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="priority" class="form-label">Priority</label>
+          <select id="priority" formControlName="priority" class="form-select">
+            <option value="HIGH">High</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="LOW">Low</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="status" class="form-label">Status</label>
+          <select id="status" formControlName="status" class="form-select">
+            <option value="OPEN">Open</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="CLOSED">Closed</option>
+          </select>
+        </div>
+        <button type="submit" class="btn" [ngClass]="editing ? 'btn-warning' : 'btn-success'">
+          {{ editing ? 'Update Incident' : 'Create Incident' }}
+        </button>
+        <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()" *ngIf="editing">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <div class="input-group mb-3">
+      <input #searchInput type="text" class="form-control" placeholder="Search Incident by Incident ID">
+      <button class="btn btn-outline-secondary" (click)="searchIncident(searchInput.value)">Search</button>
+    </div>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Incident ID</th>
+        <th>Reporter Name</th>
+        <th>Details</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Reported Date & Time</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let incident of incidents">
+        <td>{{ incident.incidentId }}</td>
+        <td>{{ incident.reporterName }}</td>
+        <td>{{ incident.incidentDetails }}</td>
+        <td>{{ incident.priority }}</td>
+        <td>{{ incident.status }}</td>
+        <td>{{ incident.reportedDateTime }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="editIncident(incident)" [disabled]="incident.status === 'CLOSED'">
+            Edit
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

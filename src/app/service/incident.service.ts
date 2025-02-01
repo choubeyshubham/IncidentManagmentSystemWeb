@@ -1,4 +1,3 @@
-// frontend/src/app/incident.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -23,11 +22,6 @@ export class IncidentService {
     return this.http.post(`${this.baseUrl}/auth/forgot-password`, data, { responseType: 'text' });
   }
 
-  // This method could either call a backend endpoint that uses an external API or be handled on the client side.
-  getLocation(pinCode: string): Observable<any> {
-    return this.http.get(`http://localhost:8080/api/location/${pinCode}`);
-  }
-
   createIncident(incident: any, userId: number): Observable<any> {
     return this.http.post(`${this.baseUrl}/incidents?userId=${userId}`, incident);
   }
@@ -42,5 +36,10 @@ export class IncidentService {
 
   getUserIncidents(userId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/incidents?userId=${userId}`);
+  }
+
+  // Optional: Auto-fill city/country based on pin code.
+  getLocation(pinCode: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/location/${pinCode}`);
   }
 }
